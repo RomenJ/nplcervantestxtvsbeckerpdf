@@ -83,23 +83,31 @@ plt.title("Nube de palabras de Don Quijote")
 plt.show()
 
 
+# Tokenización y eliminación de palabras de parada
+tokensQ = [w for w in word_tokenize(quijote_text.lower()) if w.isalpha()]
+no_stopsQ = [t for t in tokensQ if t not in stopwords.words('spanish')]
+
+# Crear un objeto Counter para contar la frecuencia de cada palabra
+countedNoStopsQ = Counter(no_stopsQ).most_common(20)
+
 print("Selected Tokens")
-print(tokens)            
-countedTokesn=Counter(tokens)
-countedNoStops=Counter(no_stops). most_common(20)
-CommonTk=countedTokesn.most_common(10)
+print(tokensQ)            
+countedTokensQ = Counter(tokensQ)
+CommonTkQ = countedTokensQ.most_common(10)
 print("Common tokens on Don Quijote")
-print(CommonTk)
-print("No Strops")
-print(countedNoStops)
-words, counts = zip(*countedNoStops)
-# Rotar las etiquetas del eje x en 45 grados
-# Añadir etiquetas sobre las columnas
-for i, count in enumerate(counts):
-    plt.text(i, count + 0.5, str(count), ha='center', va='bottom')
-plt.title("Palabras más empleadas en Rimas y Leyendas: Becker")    
-plt.xticks(rotation=45)
-plt.bar(words, counts)
-plt.xlabel("words")
-plt.ylabel("counts")
+print(CommonTkQ)
+print("No Stops")
+print(countedNoStopsQ)
+wordsQ, countsQ = zip(*countedNoStopsQ)
+
+# Graficar las palabras más empleadas
+plt.figure(figsize=(10, 6))
+plt.bar(wordsQ, countsQ)
+plt.title("Palabras más empleadas en Don Quijote de la Mancha: Cervantes")    
+plt.xlabel("Palabras")
+plt.ylabel("Frecuencia")
+plt.xticks(rotation=45, ha='right')
+for i, v in enumerate(countsQ):
+    plt.text(i, v + 5, str(v), ha='center', va='bottom')
+plt.tight_layout()
 plt.show()
